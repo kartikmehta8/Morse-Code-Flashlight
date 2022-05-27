@@ -3,18 +3,17 @@ package android.example.morsecodeflashlight;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,32 +28,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        isFlashOn = false;
-
         // Initialize ImageButton
         mImageButton = (ImageButton) findViewById(R.id.imageButton);
 
-
-        /*
-         * First check if device is supporting flashlight or not
-         */
         // hasFlash is true if and only if the device supports flashlight(s).
-        Boolean hasFlash = getApplicationContext().getPackageManager()
-                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-
+        boolean hasFlash = getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+        // If the device does not have a flashlight, then we create an alert dialog and the application exits
+        // automatically upo dismissal of the alert.
         if (!hasFlash) {
-            // device doesn't support flash
-            // Show alert message and close the application
-            AlertDialog alert = new AlertDialog.Builder(MainActivity.this)
-                    .create();
-            alert.setTitle("Error");
-            alert.setMessage("Sorry, your device doesn't support flash light!");
-
-            alert.show();
-            return;
+           createAndShowAlert();
+           return;
         }
 
-        //
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -77,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mCameraManager.registerTorchCallback(mTorchCallback, null);
         }
-        
+
 
 
         mImageButton.setOnClickListener(new View.OnClickListener(){
@@ -122,28 +107,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void turnOnFlash(){
-
+    /**
+     * Create and show a custom alert to tell the user that their device does not support flashlight.
+     */
+    private void createAndShowAlert() {
+        // Show alert message and close the application
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Error: Device Not Supported")
+                .setIcon(R.drawable.ic_warning_48px)
+                .setMessage("Sorry, your device does not support flashlights.")
+                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        MainActivity.this.finish();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
-
-    private void turnOffFlash(){
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            CameraManager.TorchCallback torchCallback = new CameraManager.TorchCallback(){
-                @Override
-                public void onTorchModeUnavailable(@NonNull String cameraId) {
-                    super.onTorchModeUnavailable(cameraId);
-                }
-
-                @Override
-                public void onTorchModeChanged(@NonNull String cameraId, boolean enabled) {
-                    super.onTorchModeChanged(cameraId, false);
-                    isFlashOn = false;
-                }
-            };
-        }
-    }
-
-
 
 
 }
