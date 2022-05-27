@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -17,18 +18,84 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
     private CameraManager mCameraManager;
-    private ImageButton mImageButton;
     private boolean isFlashOn;
 
     private CameraManager.TorchCallback mTorchCallback;
+
+    // Views
+    private ImageButton mImageButton;
+    private Button mSosButton;
+
+    class SosRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            // Flashlight sends out SOS signal (... --- ...)
+            try {
+                Thread.sleep(1000);
+                // S
+                TurnOnAllFlashlights();
+                Thread.sleep(1000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+                TurnOnAllFlashlights();
+                Thread.sleep(1000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+                TurnOnAllFlashlights();
+                Thread.sleep(1000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+
+                // wait 3 seconds between letters
+                Thread.sleep(3000);
+
+                // O
+                TurnOnAllFlashlights();
+                Thread.sleep(3000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+                TurnOnAllFlashlights();
+                Thread.sleep(3000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+                TurnOnAllFlashlights();
+                Thread.sleep(3000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+
+                // wait 3 seconds between letters
+                Thread.sleep(3000);
+
+                TurnOnAllFlashlights();
+                Thread.sleep(1000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+                TurnOnAllFlashlights();
+                Thread.sleep(1000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+                TurnOnAllFlashlights();
+                Thread.sleep(1000);
+                TurnOffAllFlashlights();
+                Thread.sleep(1000);
+
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize ImageButton
-        mImageButton = (ImageButton) findViewById(R.id.imageButton);
+        // Initialize mImageButton
+        mImageButton = findViewById(R.id.imageButton);
+        // Initialize mSosButton;
+        mSosButton = findViewById(R.id.sosButton);
 
         // hasFlash is true if and only if the device supports flashlight(s).
         boolean hasFlash = getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
@@ -48,7 +115,22 @@ public class MainActivity extends AppCompatActivity {
         // Register Torch Callback to Camera Manager
         registerTorchCallback();
 
+        // Register OnClick for mSosButton
+        mSosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 1. Turn off the flashlight
+                TurnOffAllFlashlights();
 
+                // 2. Call a new runnable on a new thread
+                SosRunnable sosRunnable = new SosRunnable();
+                new Thread(sosRunnable).start();
+
+            }
+        } );
+
+
+        // Register OnClick for mImageButton
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,25 +157,61 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            private void ToggleFlashlight(String camera) throws CameraAccessException {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    // Update the MainActivity class variable
-                    isFlashOn = !isFlashOn;
-                    // Toggle the flashlight
-                    mCameraManager.setTorchMode(camera, isFlashOn);
+
+        });
+    }
+
+    private void TurnOnAllFlashlights() {
+        try {
+            // Get a list of cameras of the device
+            String[] cameras = getCameraStringList();
+            // Iterate through every camera, every lens IS a camera.
+            for (String camera : cameras) {
+                boolean isFlashAvailable = checkFlashAvailable(camera);
+                // Only toggle the flashlight if it is available, i.e. not used by other applications (busy)
+                if (isFlashAvailable && !isFlashOn) {
+                    ToggleFlashlight(camera);
                 }
             }
+        } catch (CameraAccessException e) { // Permission denied.
+            e.printStackTrace();
+        }
+    }
 
-            private boolean checkFlashAvailable(String camera) throws CameraAccessException {
-                boolean isFlashAvailable = mCameraManager.getCameraCharacteristics(camera).get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-                return isFlashAvailable;
+    private void TurnOffAllFlashlights() {
+        try {
+            // Get a list of cameras of the device
+            String[] cameras = getCameraStringList();
+            // Iterate through every camera, every lens IS a camera.
+            for (String camera : cameras) {
+                boolean isFlashAvailable = checkFlashAvailable(camera);
+                // Only toggle the flashlight if it is available, i.e. not used by other applications (busy)
+                if (isFlashAvailable && isFlashOn) {
+                    ToggleFlashlight(camera);
+                }
             }
+        } catch (CameraAccessException e) { // Permission denied.
+            e.printStackTrace();
+        }
+    }
 
-            private String[] getCameraStringList() throws CameraAccessException {
-                String[] cameras = mCameraManager.getCameraIdList();
-                return cameras;
-            }
-        });
+    private void ToggleFlashlight(String camera) throws CameraAccessException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Update the MainActivity class variable
+            isFlashOn = !isFlashOn;
+            // Toggle the flashlight
+            mCameraManager.setTorchMode(camera, isFlashOn);
+        }
+    }
+
+    private boolean checkFlashAvailable(String camera) throws CameraAccessException {
+        boolean isFlashAvailable = mCameraManager.getCameraCharacteristics(camera).get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+        return isFlashAvailable;
+    }
+
+    private String[] getCameraStringList() throws CameraAccessException {
+        String[] cameras = mCameraManager.getCameraIdList();
+        return cameras;
     }
 
     private void registerTorchCallback() {
