@@ -1,7 +1,10 @@
 package android.example.morsecodeflashlight;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.camera2.CameraManager;
+import android.os.IBinder;
+import androidx.annotation.Nullable;
 
 public class SosRunnable extends CameraFlashManager implements Runnable {
 
@@ -59,4 +62,9 @@ public class SosRunnable extends CameraFlashManager implements Runnable {
     }
 
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 }

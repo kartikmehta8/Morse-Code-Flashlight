@@ -1,17 +1,21 @@
 package android.example.morsecodeflashlight;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
+import android.os.IBinder;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class CameraFlashManager extends AppCompatActivity {
+public class CameraFlashManager extends Service {
     private CameraManager mCameraManager;
     protected boolean isFlashOn;
     private CameraManager.TorchCallback mTorchCallback;
@@ -122,5 +126,11 @@ public class CameraFlashManager extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

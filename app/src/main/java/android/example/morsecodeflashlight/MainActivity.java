@@ -2,6 +2,7 @@ package android.example.morsecodeflashlight;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -24,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     // Views
     private ImageButton mImageButton;
     private Button mSosButton;
+    private Button mTextActivityButton;
 
+    // TODO: add timescale to runnable
     private float mTimeScale = 1;
 
 
@@ -34,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // Initialize mImageButton
+        // Initialize Buttons
         mImageButton = findViewById(R.id.imageButton);
-        // Initialize mSosButton;
         mSosButton = findViewById(R.id.sosButton);
+        mTextActivityButton = findViewById(R.id.textActivityButton);
+
 
         // Initialize CameraFlashManager class
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
@@ -54,15 +58,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a callback to be registered to camera manager
         mCameraFlashManager.createTorchCallback();
-
-        // Create a camera manager
-        // Removed because we create a manager on mainactivity instead of inside the class
-        // mCameraFlashManager.createCameraManager();
-
         // Register Torch Callback to Camera Manager
         mCameraFlashManager.registerTorchCallback();
 
-        // Register OnClick for mSosButton
+
+        /*
+        Register OnClicks
+         */
+        mTextActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CustomInputActivity.class);
+                startActivity(intent);
+            }
+        });
+
         mSosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // Register OnClick for mImageButton
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
