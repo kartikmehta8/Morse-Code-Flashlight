@@ -7,17 +7,38 @@
     tools:context=".CustomInputActivity">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textAutoComplete"
-        android:text="Morse Code Message"
         android:hint="Type your message here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/sendButton"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/sendButton"
+        app:layout_constraintTop_toBottomOf="@+id/editText">
+
+        <TextView
+            android:id="@+id/messageConfirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Messaged entered: " />
+
+        <TextView
+            android:id="@+id/messageRepeated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*EMPTY*"
+            android:layout_weight="5"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <Button
         android:id="@+id/sendButton"
@@ -28,5 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
