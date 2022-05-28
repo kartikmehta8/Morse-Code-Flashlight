@@ -43,7 +43,9 @@ public class MainRepository {
     }
 
     /*
-    TODO: AsyncTask is deprecated. Migrate to AndroidX-supported methods.
+    DEPRECATED
+
+    AsyncTask is deprecated. Migrated to AndroidX-supported methods (Runnable and Thread). See above.
      */
     private static class InsertAsyncTask extends AsyncTask<Alphabet, Void, Void> {
         private AlphabetDao mAlphabetDao;

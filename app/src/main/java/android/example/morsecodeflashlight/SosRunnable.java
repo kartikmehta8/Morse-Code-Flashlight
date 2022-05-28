@@ -44,21 +44,21 @@ public class SosRunnable extends CameraFlashManager implements Runnable {
     }
 
     private void FlashPauseLetter() throws InterruptedException {
-        Thread.sleep(3000);
+        Thread.sleep(300);
     }
 
     private void FlashDah() throws InterruptedException {
         TurnOnAllFlashlights();
         FlashPauseLetter();
         TurnOffAllFlashlights();
-        Thread.sleep(1000);
+        Thread.sleep(100);
     }
 
     private void FlashDit() throws InterruptedException {
         TurnOnAllFlashlights();
-        Thread.sleep(1000);
+        Thread.sleep(100);
         TurnOffAllFlashlights();
-        Thread.sleep(1000);
+        Thread.sleep(100);
     }
 
 

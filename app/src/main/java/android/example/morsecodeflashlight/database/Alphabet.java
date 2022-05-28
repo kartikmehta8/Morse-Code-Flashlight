@@ -7,6 +7,10 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "alphabet_table")
 public class Alphabet {
+    Alphabet(char alphabet, String morseCode){
+        this.alphabet = alphabet;
+        this.morseCode = morseCode;
+    }
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "alphabet")
