@@ -86,10 +86,6 @@ public class CameraFlashManager extends Service {
         }
     }
 
-//    protected void createCameraManager() {
-//        mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-//    }
-
     protected void createTorchCallback() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mTorchCallback = new CameraManager.TorchCallback() {
