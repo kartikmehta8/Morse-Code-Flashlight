@@ -59,7 +59,7 @@
             android:text="Morse Code: " />
 
         <TextView
-            android:id="@+id/morseCodeContent"
+            android:id="@+id/morseCodeTranslation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" "

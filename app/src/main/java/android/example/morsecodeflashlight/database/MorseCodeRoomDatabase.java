@@ -1,6 +1,7 @@
 package android.example.morsecodeflashlight.database;
 
 import android.content.Context;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
@@ -13,6 +14,8 @@ import java.util.List;
 
 @Database(entities = {Alphabet.class}, version = 1, exportSchema = true)
 public abstract class MorseCodeRoomDatabase extends RoomDatabase {
+    private static final String TAG = "MorseCodeRoomDatabase";
+
     // Database should be singleton, since accessing a database uses a lot of resources.
     private static MorseCodeRoomDatabase INSTANCE;
 
@@ -40,13 +43,14 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull @NotNull SupportSQLiteDatabase db) {
             super.onCreate(db);
+            PopulateRunnable runnable = new PopulateRunnable(INSTANCE);
+            new Thread(runnable).start();
         }
 
         @Override
         public void onOpen(@NonNull @NotNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            PopulateRunnable runnable = new PopulateRunnable(INSTANCE);
-            new Thread(runnable).start();
+
         }
 
         class PopulateRunnable implements Runnable {
@@ -66,6 +70,11 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
 
                 mPredefinedAlphabets.add(s);
                 mPredefinedAlphabets.add(o);
+
+                for (int i = 0; i < mPredefinedAlphabets.size(); i++){
+                    Log.d(TAG + i, mPredefinedAlphabets.toString());
+                }
+
 
             }
             @Override

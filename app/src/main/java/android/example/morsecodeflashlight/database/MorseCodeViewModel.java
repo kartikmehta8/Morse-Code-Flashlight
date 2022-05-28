@@ -24,6 +24,7 @@ public class MorseCodeViewModel extends AndroidViewModel {
         return mAllAlphabets;
     }
 
+
     // Insert a word in the database through the repository
     public void insert(Alphabet alphabet){
         mMainRepository.insert(alphabet);
