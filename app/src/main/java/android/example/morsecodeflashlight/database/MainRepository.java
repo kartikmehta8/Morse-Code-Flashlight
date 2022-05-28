@@ -21,22 +21,35 @@ public class MainRepository {
 
     // Inserts a single alphabet and its morse code representation into the database
     public void insert (Alphabet alphabet){
-        new insertAsyncTask(mAlphabetDao).execute(alphabet);
+        InsertRunnable runnable = new InsertRunnable(alphabet);
+        new Thread(runnable).start();
     }
-
 
     LiveData<List<Alphabet>> getAllAlphabets(){
         return mAllAlphabets;
     }
 
+    private class InsertRunnable implements Runnable {
+        Alphabet alphabetRunn;
+
+        InsertRunnable(Alphabet alphabet){
+            this.alphabetRunn = alphabet;
+        }
+
+        @Override
+        public void run() {
+            mAlphabetDao.insert(this.alphabetRunn);
+        }
+    }
+
     /*
     TODO: AsyncTask is deprecated. Migrate to AndroidX-supported methods.
      */
-    private class insertAsyncTask extends AsyncTask<Alphabet, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<Alphabet, Void, Void> {
         private AlphabetDao mAlphabetDao;
 
-        public insertAsyncTask(AlphabetDao AlphabetDao) {
-            mAlphabetDao = AlphabetDao;
+        public void InsertAsyncTask(AlphabetDao alphabetDao) {
+            mAlphabetDao = alphabetDao;
         }
 
         @Override
