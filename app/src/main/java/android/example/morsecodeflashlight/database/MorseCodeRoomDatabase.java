@@ -74,8 +74,45 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
                 Alphabet s = new Alphabet('s', "...");
                 Alphabet o = new Alphabet('o', "---");
 
-                mPredefinedAlphabets.add(s);
-                mPredefinedAlphabets.add(o);
+                mPredefinedAlphabets.add(new Alphabet('a', ".-"));
+                mPredefinedAlphabets.add(new Alphabet('b', "-..."));
+                mPredefinedAlphabets.add(new Alphabet('c', "-.-."));
+                mPredefinedAlphabets.add(new Alphabet('d', "-.."));
+                mPredefinedAlphabets.add(new Alphabet('e', "."));
+                mPredefinedAlphabets.add(new Alphabet('f', "..-."));
+                mPredefinedAlphabets.add(new Alphabet('g', "--."));
+                mPredefinedAlphabets.add(new Alphabet('h', "...."));
+                mPredefinedAlphabets.add(new Alphabet('i', ".."));
+                mPredefinedAlphabets.add(new Alphabet('j', ".---"));
+                mPredefinedAlphabets.add(new Alphabet('k', "-.-"));
+                mPredefinedAlphabets.add(new Alphabet('l', ".-.."));
+                mPredefinedAlphabets.add(new Alphabet('m', "--"));
+                mPredefinedAlphabets.add(new Alphabet('n', "-."));
+                mPredefinedAlphabets.add(new Alphabet('o', "---"));
+                mPredefinedAlphabets.add(new Alphabet('p', ".--."));
+                mPredefinedAlphabets.add(new Alphabet('q', "--.-"));
+                mPredefinedAlphabets.add(new Alphabet('r', ".-."));
+                mPredefinedAlphabets.add(new Alphabet('s', "..."));
+                mPredefinedAlphabets.add(new Alphabet('t', "-"));
+                mPredefinedAlphabets.add(new Alphabet('u', "..-"));
+                mPredefinedAlphabets.add(new Alphabet('v', "...-"));
+                mPredefinedAlphabets.add(new Alphabet('w', ".--"));
+                mPredefinedAlphabets.add(new Alphabet('x', "-..-"));
+                mPredefinedAlphabets.add(new Alphabet('y', "-.--"));
+                mPredefinedAlphabets.add(new Alphabet('z', "--.."));
+                mPredefinedAlphabets.add(new Alphabet('0', "-----"));
+                mPredefinedAlphabets.add(new Alphabet('1', ".----"));
+                mPredefinedAlphabets.add(new Alphabet('2', "..---"));
+                mPredefinedAlphabets.add(new Alphabet('3', "...--"));
+                mPredefinedAlphabets.add(new Alphabet('4', "....-"));
+                mPredefinedAlphabets.add(new Alphabet('5', "....."));
+                mPredefinedAlphabets.add(new Alphabet('6', "-...."));
+                mPredefinedAlphabets.add(new Alphabet('7', "--..."));
+                mPredefinedAlphabets.add(new Alphabet('8', "---.."));
+                mPredefinedAlphabets.add(new Alphabet('9', "----."));
+                mPredefinedAlphabets.add(new Alphabet(' ', "_"));
+
+
 
                 for (int i = 0; i < mPredefinedAlphabets.size(); i++){
                     Log.d(TAG + i, mPredefinedAlphabets.toString());

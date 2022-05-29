@@ -93,7 +93,7 @@ public class CustomInputActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Get the text from mEditText;
-                String textMessage = mEditText.getText().toString();
+                String textMessage = mEditText.getText().toString().toLowerCase();
                 // Set the text from mEditText to
                 mMessageRepeated.setText(textMessage);
 
@@ -103,9 +103,12 @@ public class CustomInputActivity extends AppCompatActivity {
                     char c = textMessage.charAt(i);
                     String correspondingMorseCode = null;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                        correspondingMorseCode = morseCodeMapping.getOrDefault(c, "?");
+                        correspondingMorseCode = morseCodeMapping.getOrDefault(c, ""); // default value is empty string
                     }
                     sb.append(correspondingMorseCode);
+                    if (c != ' ') {
+                        sb.append(" "); // space
+                    }
                 }
 
                 String translated = sb.toString();

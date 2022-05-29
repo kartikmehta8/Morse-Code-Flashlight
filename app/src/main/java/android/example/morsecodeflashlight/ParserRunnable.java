@@ -37,6 +37,15 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
                     e.printStackTrace();
                     return;
                 }
+            } else if (c == '_') {
+                try {
+                    flashPauseWord();
+                } catch (InterruptedException e) {
+                    TurnOffAllFlashlights();
+                    Thread.currentThread().interrupt();
+                    e.printStackTrace();
+                    return;
+                }
             } else {
                 try {
                     flashPauseLetter();
@@ -49,6 +58,9 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
             }
 
         }
+    }
+    private void flashPauseWord() throws InterruptedException {
+        Thread.sleep(700);
     }
 
     private void flashPauseLetter() throws InterruptedException {
