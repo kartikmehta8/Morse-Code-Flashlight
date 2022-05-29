@@ -117,7 +117,9 @@ public class CustomInputActivity extends AppCompatActivity {
                 // Iterate through the string to get the dits and dahs
                 // Use a new thread here.
                 ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, message);
-                new Thread(parserRunnable).start();
+                Thread thread = new Thread(parserRunnable);
+                thread.start();
+
             }
         });
 

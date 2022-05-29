@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private CameraManager mCameraManager;
@@ -21,10 +23,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton mImageButton;
     private Button mSosButton;
     private Button mTextActivityButton;
+    private Button mStopButton;
 
     // TODO: add timescale to runnable
     private float mTimeScale = 1;
 
+    // Only allow one extra thread in mainactivity
+    Thread t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mImageButton = findViewById(R.id.imageButton);
         mSosButton = findViewById(R.id.sosButton);
         mTextActivityButton = findViewById(R.id.textActivityButton);
+        mStopButton = findViewById(R.id.stopButton);
 
 
         // Initialize CameraFlashManager class
@@ -77,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
                 // 2. Call a new runnable on a new thread
                 SosRunnable sosRunnable = new SosRunnable(mCameraManager);
-                new Thread(sosRunnable).start();
+                t = new Thread(sosRunnable);
+//                threads.add(t);
+                t.start();
+//                new Thread(sosRunnable).start();
             }
         });
 
@@ -107,8 +116,13 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        });
 
-
+        mStopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                t.interrupt();
+            }
         });
     }
 
