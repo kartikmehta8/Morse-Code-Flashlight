@@ -3,9 +3,11 @@ package android.example.morsecodeflashlight;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.example.morsecodeflashlight.database.ThreadKillerRunnable;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.xml.sax.Parser;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     private CameraManager mCameraManager;
     private CameraFlashManager mCameraFlashManager;
@@ -28,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private float mTimeScale = 1;
 
     // Only allow one extra thread in mainactivity
-    Thread t;
+    Thread t, killer = new Thread();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,16 +83,20 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: remove this line and delegate task to sosRunnable since it extends CameraFlashManager
                 mCameraFlashManager.TurnOffAllFlashlights();
 
-//                // 2. Call a new runnable on a new thread
-//                SosRunnable sosRunnable = new SosRunnable(mCameraManager);
-//                t = new Thread(sosRunnable);
-////                threads.add(t);
-//                t.start();
-//                new Thread(sosRunnable).start();
-
                 ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "... --- ...");
-                t = new Thread(parserRunnable);
-                t.start();
+
+                if (t == null | !killer.isAlive())  {
+                    t = new Thread(parserRunnable);
+                    ThreadKillerRunnable killerRunnable = new ThreadKillerRunnable(t);
+                    killer = new Thread(killerRunnable);
+                    killer.start();
+                    t.start();
+                }
+
+                else {
+                    Snackbar.make(findViewById(R.id.main), "Press the STOP button and try again.", Snackbar.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -111,10 +118,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mImageButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (t == null | !killer.isAlive()) {
+                    ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...........................");
+                    t = new Thread(parserRunnable);
+                    t.start();
+
+                    return true;
+                } else {
+                    Snackbar.make(findViewById(R.id.main), "Press the STOP button and try again.", Snackbar.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        });
+
         mStopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                t.interrupt();
+                try {
+                    Log.d(TAG + "Thread", "" + t.isAlive());
+                }
+                catch (NullPointerException e){}
+                try {
+                    t.interrupt();
+                    t = null;
+                }
+                catch (NullPointerException e){
+
+                }
             }
         });
     }

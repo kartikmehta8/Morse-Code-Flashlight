@@ -23,19 +23,28 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
                 try {
                     flashDit();
                 } catch (InterruptedException e) {
+                    TurnOffAllFlashlights();
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
+                    return;
                 }
             } else if (c == '-') {
                 try {
                     flashDah();
                 } catch (InterruptedException e) {
+                    TurnOffAllFlashlights();
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
+                    return;
                 }
             } else {
                 try {
                     flashPauseLetter();
                 } catch (InterruptedException e) {
+                    TurnOffAllFlashlights();
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
+                    return;
                 }
             }
 
