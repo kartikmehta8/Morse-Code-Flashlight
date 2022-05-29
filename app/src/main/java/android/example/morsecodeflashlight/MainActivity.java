@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 public class MainActivity extends AppCompatActivity {
 
     // Only allow one extra thread in MainActivity
-    Thread t, killer = new Thread();
+    Thread t;
     private CameraManager mCameraManager;
     private CameraFlashManager mCameraFlashManager;
     // Views
@@ -123,11 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---");
 
                 // TODO: not sure if this is the best approach.
-                if (t == null | !killer.isAlive()) {
+                if (t == null ) {
                     t = new Thread(parserRunnable);
-                    ThreadKillerRunnable killerRunnable = new ThreadKillerRunnable(t);
-                    killer = new Thread(killerRunnable);
-                    killer.start();
                     t.start();
                 } else {
                     Snackbar.make(findViewById(R.id.main), "Press the STOP button and try again.", Snackbar.LENGTH_SHORT).show();
@@ -171,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         mImageButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (t == null | !killer.isAlive()) {
+                if (t == null) {
                     ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...............................................................................................................");
                     t = new Thread(parserRunnable);
                     t.start();
