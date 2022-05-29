@@ -62,7 +62,13 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
             PopulateRunnable(MorseCodeRoomDatabase db){
                 // TODO: below is just an example, remove and finish later in a new class
                 // Make a DAO
-                mAlphabetDao = db.alphabetDao();
+                mAlphabetDao = getAlphabetDao(db);
+                addAlphabetsToHelperList();
+
+
+            }
+
+            private void addAlphabetsToHelperList() {
                 mPredefinedAlphabets = new ArrayList<>();
 
                 Alphabet s = new Alphabet('s', "...");
@@ -74,9 +80,14 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
                 for (int i = 0; i < mPredefinedAlphabets.size(); i++){
                     Log.d(TAG + i, mPredefinedAlphabets.toString());
                 }
-
-
             }
+
+            private AlphabetDao getAlphabetDao(MorseCodeRoomDatabase db) {
+                final AlphabetDao mAlphabetDao;
+                mAlphabetDao = db.alphabetDao();
+                return mAlphabetDao;
+            }
+
             @Override
             public void run() {
                 for (int i = 0; i < mPredefinedAlphabets.size(); i++){

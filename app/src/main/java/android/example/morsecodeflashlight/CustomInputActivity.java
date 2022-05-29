@@ -1,27 +1,32 @@
 package android.example.morsecodeflashlight;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.example.morsecodeflashlight.database.Alphabet;
 import android.example.morsecodeflashlight.database.MorseCodeViewModel;
+import android.hardware.camera2.CameraManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CustomInputActivity extends AppCompatActivity {
-    private Button mSendButton;
+    private Button mConfirmButton;
+    private Button mMorseCodeButton;
     private EditText mEditText;
     private TextView mMessageRepeated;
     private TextView mMorseCodeTranslation;
+
+    private CameraManager mCameraManager;
+    private CameraFlashManager mCameraFlashManager;
 
 
 
@@ -34,10 +39,30 @@ public class CustomInputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_custom_input);
 
         // Initialize views
-        mSendButton = findViewById(R.id.sendButton);
+        mConfirmButton = findViewById(R.id.confirmButton);
         mEditText = findViewById(R.id.editText);
         mMessageRepeated = findViewById(R.id.messageRepeated);
         mMorseCodeTranslation = findViewById(R.id.morseCodeTranslation);
+        mMorseCodeButton = findViewById(R.id.morseCodeButton);
+
+        // Initialize Camera Manager
+        // Initialize CameraFlashManager class
+        mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+//        mCameraFlashManager = new CameraFlashManager(mCameraManager);
+
+        // hasFlash is true if and only if the device supports flashlight(s).
+        boolean hasFlash = getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+        // If the device does not have a flashlight, then we create an alert dialog and the application exits
+        // automatically upo dismissal of the alert.
+        if (!hasFlash) {
+            mCameraFlashManager.createAndShowAlert();
+            return;
+        }
+
+//        // Create a callback to be registered to camera manager
+//        mCameraFlashManager.createTorchCallback();
+//        // Register Torch Callback to Camera Manager
+//        mCameraFlashManager.registerTorchCallback();
 
         // Morse Code mapping
         final Map<Character, String> morseCodeMapping = new HashMap<>();
@@ -60,7 +85,7 @@ public class CustomInputActivity extends AppCompatActivity {
         mMorseCodeViewModel.getAllAlphabets().observe(this, observer);
 
         // Initialize OnClicks for Views
-        mSendButton.setOnClickListener(new View.OnClickListener() {
+        mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Get the text from mEditText;
@@ -81,6 +106,18 @@ public class CustomInputActivity extends AppCompatActivity {
 
                 String translated = sb.toString();
                 mMorseCodeTranslation.setText(translated);
+            }
+        });
+
+        mMorseCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the translated Morse Code text
+                String message = mMorseCodeTranslation.getText().toString();
+                // Iterate through the string to get the dits and dahs
+                // Use a new thread here.
+                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, message);
+                new Thread(parserRunnable).start();
             }
         });
 

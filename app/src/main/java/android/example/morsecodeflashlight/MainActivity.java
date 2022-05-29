@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 1. Turn off the flashlight
+                // TODO: remove this line and delegate task to sosRunnable since it extends CameraFlashManager
                 mCameraFlashManager.TurnOffAllFlashlights();
 
                 // 2. Call a new runnable on a new thread
