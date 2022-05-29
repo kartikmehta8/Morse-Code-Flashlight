@@ -5,6 +5,8 @@ import android.content.pm.PackageManager;
 import android.example.morsecodeflashlight.database.Alphabet;
 import android.example.morsecodeflashlight.database.MorseCodeViewModel;
 import android.hardware.camera2.CameraManager;
+import android.nfc.Tag;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomInputActivity extends AppCompatActivity {
+    private static final String TAG = "CustomInputActivity";
+
     private Button mConfirmButton;
     private Button mMorseCodeButton;
     private EditText mEditText;
@@ -114,6 +118,7 @@ public class CustomInputActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Get the translated Morse Code text
                 String message = mMorseCodeTranslation.getText().toString();
+                Log.d(TAG, message);
                 // Iterate through the string to get the dits and dahs
                 // Use a new thread here.
                 ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, message);

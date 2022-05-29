@@ -13,7 +13,7 @@ import android.os.IBinder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 public class CameraFlashManager extends Service {
     private CameraManager mCameraManager;
@@ -26,6 +26,25 @@ public class CameraFlashManager extends Service {
         this.mCameraManager = cameraManager;
     }
 
+    protected void ToggleAllFlashlights(){
+        try {
+            // Get a list of cameras of the device
+            String[] cameras = getCameraStringList();
+            // Iterate through every camera, every lens IS a camera.
+            for (String camera : cameras) {
+                boolean isFlashAvailable = checkFlashAvailable(camera);
+                // Only toggle the flashlight if it is available, i.e. not used by other applications (busy)
+                if (isFlashAvailable) {
+                    ToggleSingleFlashlight(camera);
+                }
+                // We removed the Snackbar here for the else branch, because it is highly likely that a phone
+                // has more than camera and the Snackbar here will cover the other Snackbar(s) above.
+            }
+        } catch (CameraAccessException e) { // Permission denied.
+            e.printStackTrace();
+        }
+    }
+
 
     protected void TurnOnAllFlashlights() {
         try {
@@ -36,7 +55,7 @@ public class CameraFlashManager extends Service {
                 boolean isFlashAvailable = checkFlashAvailable(camera);
                 // Only toggle the flashlight if it is available, i.e. not used by other applications (busy)
                 if (isFlashAvailable && !isFlashOn) {
-                    ToggleFlashlight(camera);
+                    ToggleSingleFlashlight(camera);
                 }
             }
         } catch (CameraAccessException e) { // Permission denied.
@@ -53,7 +72,7 @@ public class CameraFlashManager extends Service {
                 boolean isFlashAvailable = checkFlashAvailable(camera);
                 // Only toggle the flashlight if it is available, i.e. not used by other applications (busy)
                 if (isFlashAvailable && isFlashOn) {
-                    ToggleFlashlight(camera);
+                    ToggleSingleFlashlight(camera);
                 }
             }
         } catch (CameraAccessException e) { // Permission denied.
@@ -61,7 +80,7 @@ public class CameraFlashManager extends Service {
         }
     }
 
-    protected void ToggleFlashlight(String camera) throws CameraAccessException {
+    protected void ToggleSingleFlashlight(String camera) throws CameraAccessException {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Update the MainActivity class variable
             isFlashOn = !isFlashOn;

@@ -11,8 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
+import org.xml.sax.Parser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,12 +80,17 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: remove this line and delegate task to sosRunnable since it extends CameraFlashManager
                 mCameraFlashManager.TurnOffAllFlashlights();
 
-                // 2. Call a new runnable on a new thread
-                SosRunnable sosRunnable = new SosRunnable(mCameraManager);
-                t = new Thread(sosRunnable);
-//                threads.add(t);
-                t.start();
+//                // 2. Call a new runnable on a new thread
+//                SosRunnable sosRunnable = new SosRunnable(mCameraManager);
+//                t = new Thread(sosRunnable);
+////                threads.add(t);
+//                t.start();
 //                new Thread(sosRunnable).start();
+
+                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "... --- ...");
+                t = new Thread(parserRunnable);
+                t.start();
+
             }
         });
 
@@ -94,26 +98,15 @@ public class MainActivity extends AppCompatActivity {
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    // Get a list of cameras of the device
-                    String[] cameras = mCameraFlashManager.getCameraStringList();
-                    // Iterate through every camera, every lens IS a camera.
-                    for (String camera : cameras) {
-                        boolean isFlashAvailable = mCameraFlashManager.checkFlashAvailable(camera);
-                        // Only toggle the flashlight if it is available, i.e. not used by other applications (busy)
-                        if (isFlashAvailable) {
-                            mCameraFlashManager.ToggleFlashlight(camera);
-                            if (mCameraFlashManager.isFlashOn) {
-                                Snackbar.make(findViewById(R.id.main), "Flashlight ON", Snackbar.LENGTH_SHORT).show();
-                            } else {
-                                Snackbar.make(findViewById(R.id.main), "Flashlight OFF", Snackbar.LENGTH_SHORT).show();
-                            }
-                        }
-                        // We removed the Snackbar here for the else branch, because it is highly likely that a phone
-                        // has more than camera and the Snackbar here will cover the other Snackbar(s) above.
-                    }
-                } catch (CameraAccessException e) { // Permission denied.
-                    e.printStackTrace();
+                mCameraFlashManager.ToggleAllFlashlights();
+                makeToggleSnackbarMessage();
+            }
+
+            private void makeToggleSnackbarMessage() {
+                if (mCameraFlashManager.isFlashOn) {
+                    Snackbar.make(findViewById(R.id.main), "Flashlight ON", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(findViewById(R.id.main), "Flashlight OFF", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

@@ -39,11 +39,6 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
                 }
             }
 
-            try {
-                flashPauseLetter();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
