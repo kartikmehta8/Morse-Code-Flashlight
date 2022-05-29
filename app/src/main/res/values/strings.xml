@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MorseCodeFlashlight</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="day_mode">Day Mode</string>
 </resources>

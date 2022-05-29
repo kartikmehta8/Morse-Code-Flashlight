@@ -36,16 +36,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/textActivityButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:autoSizeTextType="uniform"
-            android:backgroundTint="@android:color/holo_blue_dark"
-            android:text="Input Custom Text" />
-
-        <Button
             android:id="@+id/sosButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,6 +44,17 @@
             android:autoSizeTextType="uniform"
             android:backgroundTint="@android:color/holo_red_dark"
             android:text="SOS" />
+
+        <Button
+            android:id="@+id/textActivityButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:text="Input Custom Text" />
+
+
 
         <Button
             android:id="@+id/stopButton"
