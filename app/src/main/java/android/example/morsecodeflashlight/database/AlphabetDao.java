@@ -16,12 +16,6 @@ public interface AlphabetDao {
     void insert(Alphabet alphabet);
 
     /*
-    Deletes all alphabets from the database table
-     */
-    @Query("DELETE FROM alphabet_table")
-    void deleteAll();
-
-    /*
     Returns all alphabets from the database table
      */
     @Query("SELECT * from alphabet_table ORDER BY alphabet ASC")

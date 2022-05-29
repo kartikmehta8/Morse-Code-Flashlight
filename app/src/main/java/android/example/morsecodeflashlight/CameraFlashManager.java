@@ -1,9 +1,7 @@
 package android.example.morsecodeflashlight;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -12,14 +10,13 @@ import android.os.Build;
 import android.os.IBinder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import com.google.android.material.snackbar.Snackbar;
 
 public class CameraFlashManager extends Service {
     private CameraManager mCameraManager;
     protected boolean isFlashOn;
     private CameraManager.TorchCallback mTorchCallback;
 
+    // TODO: fix this
     private Context mParentActivityContext;
 
     CameraFlashManager(CameraManager cameraManager) {
@@ -124,24 +121,7 @@ public class CameraFlashManager extends Service {
     }
 
 
-    /**
-     * Create and show a custom alert to tell the user that their device does not support flashlight.
-     */
-    protected void createAndShowAlert() {
-        // Show alert message and close the application
-        AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivityContext);
-        builder.setTitle("Error: Device Not Supported")
-                .setIcon(R.drawable.ic_warning_48px)
-                .setMessage("Sorry, your device does not support flashlights.")
-                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ((Activity) mParentActivityContext).finish();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+
 
     @Nullable
     @Override

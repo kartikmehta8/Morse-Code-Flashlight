@@ -1,18 +1,16 @@
 package android.example.morsecodeflashlight;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.example.morsecodeflashlight.database.Alphabet;
 import android.example.morsecodeflashlight.database.MorseCodeViewModel;
 import android.hardware.camera2.CameraManager;
-import android.nfc.Tag;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -30,8 +28,6 @@ public class CustomInputActivity extends AppCompatActivity {
     private TextView mMorseCodeTranslation;
 
     private CameraManager mCameraManager;
-    private CameraFlashManager mCameraFlashManager;
-
 
 
     // ViewModel to get the alphabets from the database (repository to be exact)
@@ -52,21 +48,6 @@ public class CustomInputActivity extends AppCompatActivity {
         // Initialize Camera Manager
         // Initialize CameraFlashManager class
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-//        mCameraFlashManager = new CameraFlashManager(mCameraManager);
-
-        // hasFlash is true if and only if the device supports flashlight(s).
-        boolean hasFlash = getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-        // If the device does not have a flashlight, then we create an alert dialog and the application exits
-        // automatically upo dismissal of the alert.
-        if (!hasFlash) {
-            mCameraFlashManager.createAndShowAlert();
-            return;
-        }
-
-//        // Create a callback to be registered to camera manager
-//        mCameraFlashManager.createTorchCallback();
-//        // Register Torch Callback to Camera Manager
-//        mCameraFlashManager.registerTorchCallback();
 
         // Morse Code mapping
         final Map<Character, String> morseCodeMapping = new HashMap<>();

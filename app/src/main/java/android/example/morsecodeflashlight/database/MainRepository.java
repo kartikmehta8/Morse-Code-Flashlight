@@ -1,7 +1,6 @@
 package android.example.morsecodeflashlight.database;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -30,34 +29,15 @@ public class MainRepository {
     }
 
     private class InsertRunnable implements Runnable {
-        Alphabet alphabetRunn;
+        Alphabet alphabet;
 
         InsertRunnable(Alphabet alphabet){
-            this.alphabetRunn = alphabet;
+            this.alphabet = alphabet;
         }
 
         @Override
         public void run() {
-            mAlphabetDao.insert(this.alphabetRunn);
-        }
-    }
-
-    /*
-    DEPRECATED
-
-    AsyncTask is deprecated. Migrated to AndroidX-supported methods (Runnable and Thread). See above.
-     */
-    private static class InsertAsyncTask extends AsyncTask<Alphabet, Void, Void> {
-        private AlphabetDao mAlphabetDao;
-
-        public void InsertAsyncTask(AlphabetDao alphabetDao) {
-            mAlphabetDao = alphabetDao;
-        }
-
-        @Override
-        protected Void doInBackground(Alphabet... alphabets) {
-            mAlphabetDao.insert(alphabets[0]);
-            return null;
+            mAlphabetDao.insert(this.alphabet);
         }
     }
 }

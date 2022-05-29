@@ -1,7 +1,6 @@
 package android.example.morsecodeflashlight.database;
 
 import android.content.Context;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
@@ -12,9 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Database(entities = {Alphabet.class}, version = 1, exportSchema = true)
+@Database(entities = {Alphabet.class}, version = 1)
 public abstract class MorseCodeRoomDatabase extends RoomDatabase {
-    private static final String TAG = "MorseCodeRoomDatabase";
 
     // Database should be singleton, since accessing a database uses a lot of resources.
     private static MorseCodeRoomDatabase INSTANCE;
@@ -71,9 +69,7 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
             private void addAlphabetsToHelperList() {
                 mPredefinedAlphabets = new ArrayList<>();
 
-                Alphabet s = new Alphabet('s', "...");
-                Alphabet o = new Alphabet('o', "---");
-
+                // Add alphabets and digits to the list
                 mPredefinedAlphabets.add(new Alphabet('a', ".-"));
                 mPredefinedAlphabets.add(new Alphabet('b', "-..."));
                 mPredefinedAlphabets.add(new Alphabet('c', "-.-."));
@@ -111,12 +107,6 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
                 mPredefinedAlphabets.add(new Alphabet('8', "---.."));
                 mPredefinedAlphabets.add(new Alphabet('9', "----."));
                 mPredefinedAlphabets.add(new Alphabet(' ', "_"));
-
-
-
-                for (int i = 0; i < mPredefinedAlphabets.size(); i++){
-                    Log.d(TAG + i, mPredefinedAlphabets.toString());
-                }
             }
 
             private AlphabetDao getAlphabetDao(MorseCodeRoomDatabase db) {
@@ -127,8 +117,8 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
 
             @Override
             public void run() {
-                for (int i = 0; i < mPredefinedAlphabets.size(); i++){
-                    mAlphabetDao.insert(mPredefinedAlphabets.get(i));
+                for (Alphabet mPredefinedAlphabet : mPredefinedAlphabets) {
+                    mAlphabetDao.insert(mPredefinedAlphabet);
                 }
             }
         }

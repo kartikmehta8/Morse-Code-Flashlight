@@ -15,58 +15,77 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
 
     @Override
     public void run() {
-        super.TurnOffAllFlashlights();
+        // Handshake
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         for (int i = 0; i < message.length(); i++) {
+            // Extract the current character
             char c = message.charAt(i);
+
+            // Sends out dits or dahs or turn of flashlight depending on the morse code.
             if (c == '.') {
                 try {
                     flashDit();
                 } catch (InterruptedException e) {
-                    TurnOffAllFlashlights();
-                    Thread.currentThread().interrupt();
-                    e.printStackTrace();
+                    handleInterruptedException(e);
                     return;
                 }
             } else if (c == '-') {
                 try {
                     flashDah();
                 } catch (InterruptedException e) {
-                    TurnOffAllFlashlights();
-                    Thread.currentThread().interrupt();
-                    e.printStackTrace();
+                    handleInterruptedException(e);
                     return;
                 }
             } else if (c == '_') {
                 try {
                     flashPauseWord();
                 } catch (InterruptedException e) {
-                    TurnOffAllFlashlights();
-                    Thread.currentThread().interrupt();
-                    e.printStackTrace();
+                    handleInterruptedException(e);
                     return;
                 }
             } else {
                 try {
                     flashPauseLetter();
                 } catch (InterruptedException e) {
-                    TurnOffAllFlashlights();
-                    Thread.currentThread().interrupt();
-                    e.printStackTrace();
+                    handleInterruptedException(e);
                     return;
                 }
             }
 
         }
     }
+
+    /*
+    Clean up procedures if the thread is interrupted (probably by UI stop button)
+     */
+    private void handleInterruptedException(InterruptedException e) {
+        TurnOffAllFlashlights();
+        Thread.currentThread().interrupt();
+        e.printStackTrace();
+    }
+
+    /*
+    Flash sequence between words
+     */
     private void flashPauseWord() throws InterruptedException {
         Thread.sleep(700);
     }
 
+    /*
+    Flash sequence between letters of the same word
+     */
     private void flashPauseLetter() throws InterruptedException {
         Thread.sleep(300);
     }
 
+    /*
+    Flash sequence for a '-'
+     */
     private void flashDah() throws InterruptedException {
         TurnOnAllFlashlights();
         flashPauseLetter();
@@ -74,6 +93,9 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
         Thread.sleep(100);
     }
 
+    /*
+    Flash sequence for a '.'
+     */
     private void flashDit() throws InterruptedException {
         TurnOnAllFlashlights();
         Thread.sleep(100);
@@ -82,6 +104,9 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
     }
 
 
+    /*
+    Currently not in used. Set as default method.
+     */
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
