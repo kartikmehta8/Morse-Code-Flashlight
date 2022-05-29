@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 // TODO" Calling TurnOffAllFlashlights in run() of runnable doesn't work.
                 mCameraFlashManager.TurnOffAllFlashlights();
 
-                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "... --- ...");
+                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---");
 
                 // TODO: not sure if this is the best approach.
                 if (t == null | !killer.isAlive()) {
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 if (t == null | !killer.isAlive()) {
-                    ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...........................");
+                    ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...............................................................................................................");
                     t = new Thread(parserRunnable);
                     t.start();
 
