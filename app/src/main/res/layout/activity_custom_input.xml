@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:layout_margin="16sp"
     tools:context=".CustomInputActivity">
 
 
@@ -12,7 +13,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter English alphabets and numeric digits below:"
+        android:text="@string/custom_input_instruction"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,13 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="20"
-        android:hint="Type your message here"
+        android:hint="@string/custom_input_hint"
         android:inputType="textAutoComplete"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/morseCodeLayout" />
+        app:layout_constraintBottom_toTopOf="@id/morseCodeLayout"
+        android:autofillHints="@string/auto_fill_hints" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/messageLayout"
@@ -48,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Messaged entered: "
+            android:text="@string/message_confirmation_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
@@ -56,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:text="*EMPTY*"
+            android:text="@string/message_repeated_default_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -76,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Morse Code: "
+            android:text="@string/morse_code_label_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
@@ -84,7 +86,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:text=" "
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -105,8 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="4dp"
-            android:text="Confirm message"
-            android:autoSizeTextType="uniform"
+            android:text="@string/confirm_button_text"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
 
@@ -117,9 +118,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SEND"
+            android:text="@string/send_button_text"
             android:layout_margin="4dp"
-            android:autoSizeTextType="uniform"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

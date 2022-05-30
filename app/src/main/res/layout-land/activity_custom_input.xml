@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8sp"
+    android:layout_margin="8sp"
+    tools:context=".CustomInputActivity">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/custom_input_instruction"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_weight="0.7" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:hint="@string/custom_input_hint"
+        android:inputType="textAutoComplete"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_weight="2"
+        android:autofillHints="@string/auto_fill_hints" />
+
+
+    <TextView
+        android:id="@+id/messageConfirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/message_confirmation_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/messageRepeated"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/message_repeated_default_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+    <TextView
+        android:id="@+id/morseCodeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/morse_code_label_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/morseCodeTranslation"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_margin="4sp"
+        android:text="@string/confirm_button_text"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/morseCodeButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:text="@string/send_button_text"
+        android:layout_margin="4sp"
+        android:textSize="24sp" />
+
+</LinearLayout>
