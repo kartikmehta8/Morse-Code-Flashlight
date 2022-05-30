@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.468"
         app:srcCompat="@drawable/ic_power_settings_new_48px"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:id="@+id/buttonPanel"
@@ -53,7 +53,6 @@
             android:layout_weight="1"
             android:textSize="25sp"
             android:text="@string/custom_input_button_text" />
-
 
 
         <Button

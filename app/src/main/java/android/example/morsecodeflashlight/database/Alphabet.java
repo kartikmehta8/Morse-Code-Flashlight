@@ -8,10 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 @Entity(tableName = "alphabet_table")
 public class Alphabet {
-    Alphabet(char alphabet, @NotNull String morseCode){
+    Alphabet(char alphabet, @NotNull String morseCode) {
         this.alphabet = alphabet;
         this.morseCode = morseCode;
     }
+
     @PrimaryKey
     @ColumnInfo(name = "alphabet")
     public char alphabet;

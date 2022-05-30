@@ -56,11 +56,11 @@ public class CustomInputActivity extends AppCompatActivity {
         mMorseCodeViewModel = new ViewModelProvider(this).get(MorseCodeViewModel.class);
 
         // Create the observer
-        final Observer<List<Alphabet>> observer = new Observer<List<Alphabet>>(){
+        final Observer<List<Alphabet>> observer = new Observer<List<Alphabet>>() {
             @Override
             public void onChanged(List<Alphabet> alphabets) {
                 // When the LiveData changes, recreate the mapping
-                for (Alphabet item: alphabets){
+                for (Alphabet item : alphabets) {
                     morseCodeMapping.put(item.alphabet, item.morseCode);
                 }
             }
@@ -80,13 +80,13 @@ public class CustomInputActivity extends AppCompatActivity {
 
                 // Translate the text into Morse Code
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < textMessage.length(); i++){
+                for (int i = 0; i < textMessage.length(); i++) {
                     char c = textMessage.charAt(i);
                     String correspondingMorseCode = null;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                         correspondingMorseCode = morseCodeMapping.getOrDefault(c, ""); // default value is empty string
                     }
-                    if (c == ' '){
+                    if (c == ' ') {
                         sb.deleteCharAt(sb.length() - 1);
                         sb.append("_");
                     }
@@ -115,12 +115,6 @@ public class CustomInputActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
 
 
     }

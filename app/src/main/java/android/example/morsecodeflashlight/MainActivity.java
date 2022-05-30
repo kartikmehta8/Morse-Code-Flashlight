@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Change the label of the menu based on the state of the app.
         int nightMode = AppCompatDelegate.getDefaultNightMode();
-        if(nightMode == AppCompatDelegate.MODE_NIGHT_YES){
+        if (nightMode == AppCompatDelegate.MODE_NIGHT_YES) {
             menu.findItem(R.id.night_mode).setTitle(R.string.day_mode);
-        } else{
+        } else {
             menu.findItem(R.id.night_mode).setTitle(R.string.night_mode);
         }
         return true;
@@ -50,14 +50,13 @@ public class MainActivity extends AppCompatActivity {
         // Must call this line before super.onCreate()
         // Set default theme as Dark Mode
         // The if-condition prevents dark mode from triggering even if MODE_NIGHT_NO is active.
-        if (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO){
+        if (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO) {
             AppCompatDelegate.setDefaultNightMode
                     (AppCompatDelegate.MODE_NIGHT_YES);
         }
         // Default
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         // Initialize Views
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---");
 
                 // TODO: not sure if this is the best approach.
-                if (t == null ) {
+                if (t == null) {
                     t = new Thread(parserRunnable);
                     t.start();
                 } else {

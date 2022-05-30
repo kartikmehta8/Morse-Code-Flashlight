@@ -20,7 +20,7 @@ public class MorseCodeViewModel extends AndroidViewModel {
     }
 
     // Getter method to get all Alphabets.
-    public LiveData<List<Alphabet>> getAllAlphabets(){
+    public LiveData<List<Alphabet>> getAllAlphabets() {
         return mAllAlphabets;
     }
 }

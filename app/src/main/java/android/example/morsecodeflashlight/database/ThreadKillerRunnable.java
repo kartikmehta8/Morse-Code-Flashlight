@@ -3,7 +3,7 @@ package android.example.morsecodeflashlight.database;
 public class ThreadKillerRunnable implements Runnable {
     private final Thread t;
 
-    public ThreadKillerRunnable(Thread t){
+    public ThreadKillerRunnable(Thread t) {
         this.t = t;
     }
 

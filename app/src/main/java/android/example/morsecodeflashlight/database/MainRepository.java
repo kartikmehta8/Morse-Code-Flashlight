@@ -12,26 +12,26 @@ public class MainRepository {
     private AlphabetDao mAlphabetDao;
     private LiveData<List<Alphabet>> mAllAlphabets;
 
-    MainRepository(Application application){
+    MainRepository(Application application) {
         MorseCodeRoomDatabase db = MorseCodeRoomDatabase.getDatabase(application);
         mAlphabetDao = db.alphabetDao();
         mAllAlphabets = mAlphabetDao.getAllAlphabets();
     }
 
     // Inserts a single alphabet and its morse code representation into the database
-    public void insert (Alphabet alphabet){
+    public void insert(Alphabet alphabet) {
         InsertRunnable runnable = new InsertRunnable(alphabet);
         new Thread(runnable).start();
     }
 
-    LiveData<List<Alphabet>> getAllAlphabets(){
+    LiveData<List<Alphabet>> getAllAlphabets() {
         return mAllAlphabets;
     }
 
     private class InsertRunnable implements Runnable {
         Alphabet alphabet;
 
-        InsertRunnable(Alphabet alphabet){
+        InsertRunnable(Alphabet alphabet) {
             this.alphabet = alphabet;
         }
 

@@ -23,7 +23,7 @@ public class CameraFlashManager extends Service {
         this.mCameraManager = cameraManager;
     }
 
-    protected void ToggleAllFlashlights(){
+    protected void ToggleAllFlashlights() {
         try {
             // Get a list of cameras of the device
             String[] cameras = getCameraStringList();
@@ -119,8 +119,6 @@ public class CameraFlashManager extends Service {
             };
         }
     }
-
-
 
 
     @Nullable

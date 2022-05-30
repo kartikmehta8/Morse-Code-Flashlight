@@ -18,13 +18,13 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
     private static MorseCodeRoomDatabase INSTANCE;
 
     // Constructor ensuring singleton property
-    static MorseCodeRoomDatabase getDatabase(final Context context){
-        if (INSTANCE == null){
-            synchronized (MorseCodeRoomDatabase.class){
-                if (INSTANCE == null){
+    static MorseCodeRoomDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (MorseCodeRoomDatabase.class) {
+                if (INSTANCE == null) {
                     // Build a new instance if and only if INSTANCE is null
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            MorseCodeRoomDatabase.class, "morseCodeRoomDatabase")
+                                    MorseCodeRoomDatabase.class, "morseCodeRoomDatabase")
                             .addCallback(sMorseCodeRoomDatabaseCallback)
                             .build();
                 }
@@ -37,7 +37,7 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
     public abstract AlphabetDao alphabetDao();
 
     // Callback is called when the database is first created
-    private static RoomDatabase.Callback sMorseCodeRoomDatabaseCallback = new RoomDatabase.Callback(){
+    private static RoomDatabase.Callback sMorseCodeRoomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull @NotNull SupportSQLiteDatabase db) {
             super.onCreate(db);
@@ -57,7 +57,7 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
 
             // Constructors initializes the list of Alphabets and add to database
             // TODO: create a helper class to construct the 26 alphabets
-            PopulateRunnable(MorseCodeRoomDatabase db){
+            PopulateRunnable(MorseCodeRoomDatabase db) {
                 // TODO: below is just an example, remove and finish later in a new class
                 // Make a DAO
                 mAlphabetDao = getAlphabetDao(db);
