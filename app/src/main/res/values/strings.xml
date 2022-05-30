@@ -5,7 +5,7 @@
     <string name="main_button_image">On Button Image</string>
     <string name="sos_button_text">SOS</string>
     <string name="custom_input_button_text">Input Custom Text</string>
-    <string name="cancel_button_text">CANCEL ALL TRANSMISSIONS</string>
+    <string name="cancel_button_text">STOP ALL TRANSMISSIONS</string>
     <string name="custom_input_instruction">Enter English alphabets and numeric digits below:</string>
     <string name="custom_input_hint">Type your message here</string>
     <string name="message_confirmation_text">Messaged entered:</string>
@@ -14,4 +14,6 @@
     <string name="confirm_button_text">Confirm message</string>
     <string name="send_button_text">SEND</string>
     <string name="auto_fill_hints">hi</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
 </resources>

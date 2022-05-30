@@ -6,7 +6,7 @@
     <string name="main_button_image">On Button Image</string>
     <string name="sos_button_text">SOS</string>
     <string name="custom_input_button_text">Input Custom Text</string>
-    <string name="cancel_button_text">CANCEL ALL\n TRANSMISSIONS</string>
+    <string name="cancel_button_text">STOP ALL\n TRANSMISSIONS</string>
     <string name="custom_input_instruction">Enter English alphabets and numeric digits below:</string>
     <string name="custom_input_hint">Type your message here</string>
     <string name="message_confirmation_text">Messaged entered:</string>

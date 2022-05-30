@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/night_mode"
-        android:title="@string/night_mode" />
+        android:title="@string/night_mode"
+        android:orderInCategory="10"
+        android:icon="@drawable/ic_night_mode"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        android:orderInCategory="20"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/about"
+        android:title="@string/about"
+        android:orderInCategory="30"
+        app:showAsAction="never"/>
 </menu>
