@@ -106,7 +106,7 @@ public abstract class MorseCodeRoomDatabase extends RoomDatabase {
                 mPredefinedAlphabets.add(new Alphabet('7', "--..."));
                 mPredefinedAlphabets.add(new Alphabet('8', "---.."));
                 mPredefinedAlphabets.add(new Alphabet('9', "----."));
-                mPredefinedAlphabets.add(new Alphabet(' ', "_"));
+                mPredefinedAlphabets.add(new Alphabet(' ', "_")); // two spaces
             }
 
             private AlphabetDao getAlphabetDao(MorseCodeRoomDatabase db) {

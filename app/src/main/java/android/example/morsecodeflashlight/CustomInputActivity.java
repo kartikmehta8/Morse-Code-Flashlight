@@ -86,8 +86,12 @@ public class CustomInputActivity extends AppCompatActivity {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                         correspondingMorseCode = morseCodeMapping.getOrDefault(c, ""); // default value is empty string
                     }
-                    sb.append(correspondingMorseCode);
+                    if (c == ' '){
+                        sb.deleteCharAt(sb.length() - 1);
+                        sb.append("_");
+                    }
                     if (c != ' ') {
+                        sb.append(correspondingMorseCode);
                         sb.append(" "); // space
                     }
                 }
