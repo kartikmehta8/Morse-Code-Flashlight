@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.example.morsecodeflashlight.database.ThreadKillerRunnable;
 import android.hardware.camera2.CameraManager;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 import com.google.android.material.snackbar.Snackbar;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
     private Button mSosButton;
     private Button mTextActivityButton;
     private Button mStopButton;
+
+    // SharedPreferences keys and their variables
+    public static final String SHARED_PREF_FILE = "android.example.morsecodeflashlight";
+    private SharedPreferences mPreferences;
+    public static final String KEY_PREF_NIGHT_MODE = "night_mode";
+    private int mNightMode = AppCompatDelegate.MODE_NIGHT_YES;
+    public static final String KEY_PREF_SOUND_SWITCH = "example_switch";
+    private boolean mSound;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,10 +60,11 @@ public class MainActivity extends AppCompatActivity {
         // Must call this line before super.onCreate()
         // Set default theme as Dark Mode
         // The if-condition prevents dark mode from triggering even if MODE_NIGHT_NO is active.
-        if (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO) {
-            AppCompatDelegate.setDefaultNightMode
-                    (AppCompatDelegate.MODE_NIGHT_YES);
-        }
+        // TODO: get this in shared preferences
+//        if (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO) {
+//            AppCompatDelegate.setDefaultNightMode
+//                    (AppCompatDelegate.MODE_NIGHT_YES);
+//        }
         // Default
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -79,6 +90,30 @@ public class MainActivity extends AppCompatActivity {
         setUpSosButton();
         setUpImageButton();
         setUpStopButton();
+
+        // Set SharedPreferences
+        // Default values of preferences cannot be set more than once
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        // PreferenceManager.setDefaultValues(this, AppCompatDelegate.MODE_NIGHT_YES, false);
+
+
+        mPreferences = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
+
+        mNightMode = mPreferences.getInt(KEY_PREF_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES);
+        mSound = mPreferences.getBoolean(KEY_PREF_SOUND_SWITCH, false);
+        AppCompatDelegate.setDefaultNightMode(mNightMode);
+
+        Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putInt(KEY_PREF_NIGHT_MODE, mNightMode);
+        preferencesEditor.putBoolean(KEY_PREF_SOUND_SWITCH, mSound);
+        preferencesEditor.apply();
     }
 
     private boolean doesNotHaveAFlashlight() {
@@ -218,27 +253,34 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.night_mode: {
                 // Get the night mode state of the app.
-                int nightMode = AppCompatDelegate.getDefaultNightMode();
                 //Set the theme mode for the restarted activity
-                if (nightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                if (mNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                    mNightMode = AppCompatDelegate.MODE_NIGHT_NO;
                     AppCompatDelegate.setDefaultNightMode
                             (AppCompatDelegate.MODE_NIGHT_NO);
                 } else {
+                    mNightMode = AppCompatDelegate.MODE_NIGHT_YES;
                     AppCompatDelegate.setDefaultNightMode
                             (AppCompatDelegate.MODE_NIGHT_YES);
                 }
                 // Recreate the activity for the theme change to take effect.
                 recreate();
-                break;
+                return true;
             }
 
             case R.id.about: {
                 Intent intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
+                return true;
             }
+
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
         }
 
-        return true;
+        return false;
 
 
     }

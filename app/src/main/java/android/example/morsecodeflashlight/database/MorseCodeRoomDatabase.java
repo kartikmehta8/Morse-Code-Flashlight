@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Database(entities = {Alphabet.class}, version = 1)
+@Database(entities = {Alphabet.class}, version = 1, exportSchema = false)
 public abstract class MorseCodeRoomDatabase extends RoomDatabase {
 
     // Database should be singleton, since accessing a database uses a lot of resources.
