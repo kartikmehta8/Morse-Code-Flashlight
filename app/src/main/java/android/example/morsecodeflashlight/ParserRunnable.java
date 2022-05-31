@@ -3,14 +3,21 @@ package android.example.morsecodeflashlight;
 import android.content.Intent;
 import android.hardware.camera2.CameraManager;
 import android.os.IBinder;
+import android.util.Log;
 import androidx.annotation.Nullable;
 
 public class ParserRunnable extends CameraFlashManager implements Runnable {
     String message;
 
-    ParserRunnable(CameraManager cameraManager, String message) {
+    // The ratio for morse code signal
+    int durationDit = 1, durationDah = 3, durationLetter = 3, durationWord = 7;
+    float scale;
+
+    ParserRunnable(CameraManager cameraManager, String message, int speed) {
         super(cameraManager);
         this.message = message;
+        this.scale = 100 * speed;
+        Log.d("SCALE", Float.toString(this.scale));
     }
 
     @Override
@@ -73,14 +80,14 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
     Flash sequence between words
      */
     private void flashPauseWord() throws InterruptedException {
-        Thread.sleep(700);
+        Thread.sleep((long) (durationWord * scale));
     }
 
     /*
     Flash sequence between letters of the same word
      */
     private void flashPauseLetter() throws InterruptedException {
-        Thread.sleep(300);
+        Thread.sleep((long) (durationLetter * scale));
     }
 
     /*
@@ -88,9 +95,9 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
      */
     private void flashDah() throws InterruptedException {
         TurnOnAllFlashlights();
-        flashPauseLetter();
+        Thread.sleep((long) (durationDah * scale));
         TurnOffAllFlashlights();
-        Thread.sleep(100);
+        Thread.sleep((long) (durationDit * scale));
     }
 
     /*
@@ -98,9 +105,9 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
      */
     private void flashDit() throws InterruptedException {
         TurnOnAllFlashlights();
-        Thread.sleep(100);
+        Thread.sleep((long) (durationDit * scale));
         TurnOffAllFlashlights();
-        Thread.sleep(100);
+        Thread.sleep((long) (durationDit * scale));
     }
 
 

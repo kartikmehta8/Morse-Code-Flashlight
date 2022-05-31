@@ -13,9 +13,9 @@
         android:key="flashlight_intensity"
         android:title="Flashlight Intensity" />
     <ListPreference
-        android:defaultValue="Slow (Default)"
-        android:entries="@array/speed"
-        android:entryValues="@array/speed"
+        android:defaultValue="1"
+        android:entries="@array/speed_label"
+        android:entryValues="@array/speed_value"
         android:key="speed"
         android:title="Transmission Speed" />
 

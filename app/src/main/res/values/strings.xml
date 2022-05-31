@@ -22,7 +22,8 @@
     <string name="about_subtitle">Created by Cy</string>
     <string name="about_text">Created for entertainment. Features include normal flashlight, fast flash flashlight, SOS light beacon, Morse Code Transmitter and much more.\n\nBeta Version 29 May 2022</string>
     <string name="add_comment">Contact Us</string>
-
+    <string name="morse_sos">...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---</string>
+    <string name="morse_siren">...............................................................................................................</string>
 
 
 </resources>

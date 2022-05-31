@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mSound;
     private int mFlashlightIntensity;
-    private String mSpeed;
+    private int mSpeed;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSound = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
         mFlashlightIntensity = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_FLASHLIGHT_INTENSITY, "1"));
-        mSpeed = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_SPEED, "Slow (Default)1");
+        mSpeed = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_SPEED, "1"));
         Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound + "; flashlight_intensity: " + mFlashlightIntensity + "; speed: " + mSpeed, Snackbar.LENGTH_SHORT).show();
     }
 
@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CustomInputActivity.class);
+                intent.putExtra("mSpeed", mSpeed);
                 startActivity(intent);
             }
         });
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 // TODO" Calling TurnOffAllFlashlights in run() of runnable doesn't work.
                 mCameraFlashManager.TurnOffAllFlashlights();
 
-                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---...---");
+                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, getString(R.string.morse_sos), mSpeed);
 
                 // TODO: not sure if this is the best approach.
                 if (t == null) {
@@ -197,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 if (t == null) {
-                    ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, "...............................................................................................................");
+                    ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, getString(R.string.morse_siren), mSpeed);
                     t = new Thread(parserRunnable);
                     t.start();
 
