@@ -15,7 +15,7 @@
         android:entries="@array/flashlight_intensity_array"
         android:entryValues="@array/flashlight_intensity_array"
         android:key="flashlight_intensity"
-        android:title="Flashlight Intensity (Currently Unavailable)" />
+        android:title="Flashlight Intensity (Unavailable)" />
     <ListPreference
         android:defaultValue="1"
         android:entries="@array/speed_label"
