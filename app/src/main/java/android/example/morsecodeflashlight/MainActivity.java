@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String KEY_PREF_NIGHT_MODE = "night_mode";
     private int mNightMode = AppCompatDelegate.MODE_NIGHT_YES;
 
+    // User Preferences into variables
     private boolean mSound;
     private int mFlashlightIntensity;
     private int mSpeed;
