@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mSound;
     private int mFlashlightIntensity;
+    private String mSpeed;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
 
         mSound = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
         mFlashlightIntensity = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_FLASHLIGHT_INTENSITY, "1"));
-        Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound + "; flashlight_intensity: " + mFlashlightIntensity, Snackbar.LENGTH_SHORT).show();
+        mSpeed = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_SPEED, "Slow (Default)1");
+        Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound + "; flashlight_intensity: " + mFlashlightIntensity + "; speed: " + mSpeed, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

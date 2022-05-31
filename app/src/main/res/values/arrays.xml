@@ -9,4 +9,11 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+
+    <string-array
+        name="speed">
+        <item>Slow (Default)</item>
+        <item>Moderate</item>
+        <item>Fast</item>
+    </string-array>
 </resources>
