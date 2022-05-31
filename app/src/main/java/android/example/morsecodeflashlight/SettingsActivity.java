@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class SettingsActivity extends AppCompatActivity {
+    public static final String KEY_PREF_SOUND_SWITCH = "sound_switch";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

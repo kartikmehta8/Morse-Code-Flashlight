@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
     public static final String KEY_PREF_NIGHT_MODE = "night_mode";
     private int mNightMode = AppCompatDelegate.MODE_NIGHT_YES;
-    public static final String KEY_PREF_SOUND_SWITCH = "example_switch";
+
     private boolean mSound;
 
     @Override
@@ -57,14 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Must call this line before super.onCreate()
-        // Set default theme as Dark Mode
-        // The if-condition prevents dark mode from triggering even if MODE_NIGHT_NO is active.
-        // TODO: get this in shared preferences
-//        if (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO) {
-//            AppCompatDelegate.setDefaultNightMode
-//                    (AppCompatDelegate.MODE_NIGHT_YES);
-//        }
         // Default
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -94,15 +86,14 @@ public class MainActivity extends AppCompatActivity {
         // Set SharedPreferences
         // Default values of preferences cannot be set more than once
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        // PreferenceManager.setDefaultValues(this, AppCompatDelegate.MODE_NIGHT_YES, false);
 
 
         mPreferences = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
 
         mNightMode = mPreferences.getInt(KEY_PREF_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES);
-        mSound = mPreferences.getBoolean(KEY_PREF_SOUND_SWITCH, false);
         AppCompatDelegate.setDefaultNightMode(mNightMode);
 
+        mSound = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
         Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound, Snackbar.LENGTH_SHORT).show();
     }
 
@@ -112,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         preferencesEditor.putInt(KEY_PREF_NIGHT_MODE, mNightMode);
-        preferencesEditor.putBoolean(KEY_PREF_SOUND_SWITCH, mSound);
         preferencesEditor.apply();
     }
 
