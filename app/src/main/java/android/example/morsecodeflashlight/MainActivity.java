@@ -8,7 +8,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.example.morsecodeflashlight.database.ThreadKillerRunnable;
 import android.hardware.camera2.CameraManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,10 +98,7 @@ public class MainActivity extends AppCompatActivity {
         mNightMode = mPreferences.getInt(KEY_PREF_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES);
         AppCompatDelegate.setDefaultNightMode(mNightMode);
 
-        mSound = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
-        mFlashlightIntensity = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_FLASHLIGHT_INTENSITY, "1"));
-        mSpeed = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_SPEED, "1"));
-        Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound + "; flashlight_intensity: " + mFlashlightIntensity + "; speed: " + mSpeed, Snackbar.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -109,6 +109,16 @@ public class MainActivity extends AppCompatActivity {
         preferencesEditor.putInt(KEY_PREF_NIGHT_MODE, mNightMode);
         preferencesEditor.apply();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSound = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+        mFlashlightIntensity = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_FLASHLIGHT_INTENSITY, "1"));
+        mSpeed = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_SPEED, "1"));
+        // Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound + "; flashlight_intensity: " + mFlashlightIntensity + "; speed: " + mSpeed, Snackbar.LENGTH_SHORT).show();
+    }
+
 
     private boolean doesNotHaveAFlashlight() {
         // hasFlash is true if and only if the device supports flashlight(s).
@@ -135,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CustomInputActivity.class);
                 intent.putExtra("mSpeed", mSpeed);
+                intent.putExtra("mSound", mSound);
                 startActivity(intent);
             }
         });
@@ -149,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 // TODO" Calling TurnOffAllFlashlights in run() of runnable doesn't work.
                 mCameraFlashManager.TurnOffAllFlashlights();
 
-                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, getString(R.string.morse_sos), mSpeed);
+                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, getString(R.string.morse_sos), mSpeed, mSound);
 
                 // TODO: not sure if this is the best approach.
                 if (t == null) {
@@ -173,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     t = null;
                 } catch (NullPointerException ignored) {
                 }
+
             }
         });
     }
@@ -198,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 if (t == null) {
-                    ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, getString(R.string.morse_siren), mSpeed);
+                    ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, getString(R.string.morse_siren), mSpeed, mSound);
                     t = new Thread(parserRunnable);
                     t.start();
 

@@ -2,6 +2,8 @@ package android.example.morsecodeflashlight;
 
 import android.content.Intent;
 import android.hardware.camera2.CameraManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.IBinder;
 import android.util.Log;
 import androidx.annotation.Nullable;
@@ -13,11 +15,18 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
     int durationDit = 1, durationDah = 3, durationLetter = 3, durationWord = 7;
     float scale;
 
-    ParserRunnable(CameraManager cameraManager, String message, int speed) {
+    // ToneGenerator if the user wants to play the sound as well
+    ToneGenerator mToneGenerator;
+    int mSoundEffect = ToneGenerator.TONE_DTMF_0;
+
+    ParserRunnable(CameraManager cameraManager, String message, int speed, boolean soundOn) {
         super(cameraManager);
         this.message = message;
-        this.scale = 100 * speed;
+        this.scale = 100L * speed;
         Log.d("SCALE", Float.toString(this.scale));
+        if (soundOn) {
+            mToneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+        }
     }
 
     @Override
@@ -26,6 +35,7 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
+            handleInterruptedException(e);
             e.printStackTrace();
         }
 
@@ -72,6 +82,7 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
      */
     private void handleInterruptedException(InterruptedException e) {
         TurnOffAllFlashlights();
+        mToneGenerator.stopTone();
         Thread.currentThread().interrupt();
         e.printStackTrace();
     }
@@ -95,6 +106,9 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
      */
     private void flashDah() throws InterruptedException {
         TurnOnAllFlashlights();
+        try {
+            mToneGenerator.startTone(mSoundEffect, (int) (durationDah * scale));
+        } catch (NullPointerException ignored){}
         Thread.sleep((long) (durationDah * scale));
         TurnOffAllFlashlights();
         Thread.sleep((long) (durationDit * scale));
@@ -105,6 +119,9 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
      */
     private void flashDit() throws InterruptedException {
         TurnOnAllFlashlights();
+        try {
+            mToneGenerator.startTone(mSoundEffect, (int) (durationDit * scale));
+        } catch (NullPointerException ignored){}
         Thread.sleep((long) (durationDit * scale));
         TurnOffAllFlashlights();
         Thread.sleep((long) (durationDit * scale));
