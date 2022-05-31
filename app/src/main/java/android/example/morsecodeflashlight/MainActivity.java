@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
 
         mNightMode = mPreferences.getInt(KEY_PREF_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_YES);
-        AppCompatDelegate.setDefaultNightMode(mNightMode);
+
 
 
     }
@@ -114,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        AppCompatDelegate.setDefaultNightMode(mNightMode);
         mSound = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
         mFlashlightIntensity = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_FLASHLIGHT_INTENSITY, "1"));
         mSpeed = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_SPEED, "1"));
         mVolume = PreferenceManager.getDefaultSharedPreferences(this).getInt(SettingsActivity.KEY_PREF_VOLUME, 100);
-        // Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound + "; flashlight_intensity: " + mFlashlightIntensity + "; speed: " + mSpeed, Snackbar.LENGTH_SHORT).show();
     }
 
 
@@ -276,6 +276,16 @@ public class MainActivity extends AppCompatActivity {
                 recreate();
                 return true;
             }
+            case R.id.reset:
+                // Reset to dark mode
+                mNightMode = AppCompatDelegate.MODE_NIGHT_YES;
+
+                // Clear mPreferences (night mode) and Default Preferences from Preference Screen
+                mPreferences.edit().clear().apply();
+                PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply();
+
+                recreate();
+                return true;
 
             case R.id.about: {
                 Intent intent = new Intent(this, AboutActivity.class);
