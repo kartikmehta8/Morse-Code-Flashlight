@@ -19,13 +19,13 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
     ToneGenerator mToneGenerator;
     int mSoundEffect = ToneGenerator.TONE_DTMF_0;
 
-    ParserRunnable(CameraManager cameraManager, String message, int speed, boolean soundOn) {
+    ParserRunnable(CameraManager cameraManager, String message, int speed, boolean soundOn, int volume) {
         super(cameraManager);
         this.message = message;
         this.scale = 100L * speed;
         Log.d("SCALE", Float.toString(this.scale));
         if (soundOn) {
-            mToneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+            mToneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, volume);
         }
     }
 

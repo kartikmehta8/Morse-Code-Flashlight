@@ -7,6 +7,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String KEY_PREF_SOUND_SWITCH = "sound_switch";
     public static final String KEY_PREF_FLASHLIGHT_INTENSITY = "flashlight_intensity";
     public static final String KEY_PREF_SPEED = "speed";
+    public static final String KEY_PREF_VOLUME = "volume";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

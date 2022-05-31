@@ -34,6 +34,7 @@ public class CustomInputActivity extends AppCompatActivity {
 
     // ViewModel to get the alphabets from the database (repository to be exact)
     private MorseCodeViewModel mMorseCodeViewModel;
+    private int mVolume;
 
 
     @Override
@@ -44,6 +45,7 @@ public class CustomInputActivity extends AppCompatActivity {
         // Unpack intent extra to get value for speed
         mSpeed = getIntent().getExtras().getInt("mSpeed", 1);
         mSound = getIntent().getExtras().getBoolean("mSound", false);
+        mVolume = getIntent().getExtras().getInt("mVolume", 100);
 
         // Initialize views
         mConfirmButton = findViewById(R.id.confirmButton);
@@ -116,7 +118,7 @@ public class CustomInputActivity extends AppCompatActivity {
                 Log.d(TAG, message);
                 // Iterate through the string to get the dits and dahs
                 // Use a new thread here.
-                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, message, mSpeed, mSound);
+                ParserRunnable parserRunnable = new ParserRunnable(mCameraManager, message, mSpeed, mSound, mVolume);
                 Thread thread = new Thread(parserRunnable);
                 thread.start();
 

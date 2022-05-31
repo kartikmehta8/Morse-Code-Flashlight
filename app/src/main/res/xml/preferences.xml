@@ -5,7 +5,11 @@
         android:defaultValue="false"
         android:key="sound_switch"
         android:title="Enable Sound"
-        android:summary="Enable sound during transmission"/>
+        android:summary="Enable sound during transmission" />
+    <SeekBarPreference
+        android:defaultValue="100"
+        android:key="volume"
+        android:title="Volume" />
     <ListPreference
         android:defaultValue="1"
         android:entries="@array/flashlight_intensity_array"
