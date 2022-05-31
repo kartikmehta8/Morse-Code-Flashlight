@@ -82,7 +82,10 @@ public class ParserRunnable extends CameraFlashManager implements Runnable {
      */
     private void handleInterruptedException(InterruptedException e) {
         TurnOffAllFlashlights();
-        mToneGenerator.stopTone();
+        try {
+            mToneGenerator.stopTone();
+        }
+        catch (NullPointerException ignored){}
         Thread.currentThread().interrupt();
         e.printStackTrace();
     }
