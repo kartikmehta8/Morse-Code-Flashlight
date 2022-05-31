@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private int mNightMode = AppCompatDelegate.MODE_NIGHT_YES;
 
     private boolean mSound;
+    private int mFlashlightIntensity;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(mNightMode);
 
         mSound = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
-        Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound, Snackbar.LENGTH_SHORT).show();
+        mFlashlightIntensity = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_FLASHLIGHT_INTENSITY, "1"));
+        Snackbar.make(findViewById(R.id.main), "sound_switch " + mSound + "; flashlight_intensity: " + mFlashlightIntensity, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
