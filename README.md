@@ -24,7 +24,9 @@ This project is built with Java with Android's Room Database.
 - Custom Morse Code Input (Translates user's sentence input into Morse Code)
 - And more!
 
-
+### Upcoming Features
+- Save custom input for quick access
+- Include common Morse Code phrases for quick access
 
 ## Getting Started
 
