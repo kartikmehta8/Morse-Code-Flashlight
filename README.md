@@ -46,11 +46,6 @@ This project is built with Java with Android's Room Database.
 1. Download the Android APK on the Releases section on GitHub.
 2. Install the application by running the APK.
 
-### Executing program
-
-1. Begin using this extension by pinning the extension on the top right corner.
-2. Open a website with HTML5 video element, e.g. any [YouTube](https://www.youtube.com) video and click on the Chrome Extension.
-
 ## Help
 
 If you encounter any issues with the app, please close the app and restart it to see if the issue is resolved. If not, please leave a detailed description in the "issues" tab on GitHub to let me know.
